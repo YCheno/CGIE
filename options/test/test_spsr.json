@@ -1,0 +1,31 @@
+{
+  "name": "CGIE"
+  , "model": "spsr"
+  , "scale": 1
+  , "gpu_ids": [0]
+
+  , "datasets": {
+    "test_1": {
+      "name": "CloudGame"
+      , "mode": "LR"
+      , "dataroot_LR": "test_inputs"//test input images
+    }
+  }
+  , "path": {
+    "root": "."//results output root
+    , "pretrain_model_G": "checkpoint/latest_G.pth"
+  }
+
+  , "network_G": {
+    "which_model_G": "spsr_net"
+    , "norm_type": null
+    , "mode": "CNA"
+    , "nf": 48
+    , "nb": 4
+    , "in_nc": 3
+    , "out_nc": 3
+
+    , "gc": 24
+    , "group": 1
+  }
+}

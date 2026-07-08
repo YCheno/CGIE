@@ -1,0 +1,91 @@
+{
+  "name": "CGIE"
+  , "use_tb_logger": true
+  , "model":"spsr"
+  , "scale": 1
+  , "gpu_ids": [0]
+
+  , "datasets": {
+    "train": {
+      "name": "CGIE"
+      , "mode": "LRHR"
+      , "dataroot_LR": "AADataset/train/LR_train"
+      , "dataroot_HR": "AADataset/train/GT_train"
+      , "subset_file": null
+      , "use_shuffle": true
+      , "n_workers": 8
+      , "batch_size": 16
+      , "HR_size": 64
+      , "use_flip": true
+      , "use_rot": true
+
+    }
+    , "val": {
+      "name": "CGIE"
+      , "mode": "LRHR"
+      , "dataroot_HR": "AADataset/val/GT_val"
+      , "dataroot_LR": "AADataset/val/LR_val"
+    }
+  }
+
+  , "path": {
+  "root": "../"
+    , "resume_state": ""
+  }
+
+  , "network_G": {
+    "which_model_G": "spsr_net"   
+    , "norm_type": null
+    , "mode": "CNA"
+    , "nf": 48
+    , "nb": 4
+    , "in_nc": 3
+    , "out_nc": 3
+    , "gc": 24
+    , "group": 1
+  }
+
+  , "network_D": {
+    "which_model_D": "discriminator_vgg_128"
+    , "norm_type": "batch"
+    , "act_type": "leakyrelu"
+    , "mode": "CNA"
+    , "nf": 48
+    , "in_nc": 3
+  }
+
+  , "train": {
+    "lr_G": 2e-4
+    , "weight_decay_G": 0
+    , "weight_decay_G_grad": 0
+    , "beta1_G": 0.9
+    , "beta1_G_grad": 0.9
+    , "weight_decay_D": 0
+    , "beta1_D": 0.9
+    , "lr_scheme": "MultiStepLR"
+    , "lr_steps": [20e3, 40e3, 60e3, 80e3, 100e3, 140e3, 180e3]
+    , "lr_gamma": 0.5
+
+    , "pixel_criterion": "l1_per"
+    , "pixel_weight": 1
+    , "feature_criterion": "l1"
+    , "feature_weight": 0
+    , "gradient_pixel_weight": 0
+    , "lbp_pixel_weight": 0
+    , "pixel_branch_criterion": "l1"
+    , "pixel_branch_weight": 0
+    , "lbp_branch_criterion": "l1"
+    , "lbp_branch_weight": 1
+    , "Branch_pretrain" : 1
+    , "Branch_init_iters" : 5000
+
+    , "manual_seed": 9
+    , "niter": 200e3
+    , "val_freq": 2000e3
+  }
+
+  , "logger": {
+    "print_freq": 100
+    , "save_checkpoint_freq": 5e3
+  }
+}
